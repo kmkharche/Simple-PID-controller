@@ -1,17 +1,17 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from pi_controller import PI_Controller
+from pd_controller import PD_Controller
 from quad1d_eom import ydot
 
 ##################################################################################
 ##################################################################################
-kp = 0.76
-ki = 0.10
+kp = 1.76
+kd = 0.45
 ##################################################################################
 ##################################################################################
 
 # Simulation parameters
-N = 500 # number of simulation points
+N = 500 # number of simultion points
 t0 = 0  # starting time, (sec)
 tf = 30 # end time, (sec)
 time = np.linspace(t0, tf, N)
@@ -28,23 +28,23 @@ y = [0, 0]
 soln = np.zeros((len(time),len(y)))
 
 # Create instance of PI_Controller class
-pi = PI_Controller()
+pd = PD_Controller()
 
 # Set the Kp value of the controller
-pi.setKP(kp)
+pd.setKP(kp)
 
-# Set the Ki value of the controller
-pi.setKI(ki)
+# Set the Kd value of the controller
+pd.setKD(kd)
 
 # Set altitude target
 r = 10 # meters
-pi.setTarget(r)
+pd.setTarget(r)
 
 # Simulate quadrotor motion
 j = 0 # dummy counter
 for t in time:
     # Evaluate state at next time point
-    y = ydot(y,t,pi)
+    y = ydot(y,t,pd)
     # Store results
     soln[j,:] = y
     j += 1
@@ -67,8 +67,8 @@ plt.show()
 
 fig2 = plt.figure()
 ax3 = fig2.add_subplot(111)
-ax3.plot(time, pi.u_p, label='u_p', linewidth=3, color = 'red')
-ax3.plot(time, pi.u_i, label='u_i', linewidth=3, color = 'blue')
+ax3.plot(time, pd.u_p, label='u_p', linewidth=3, color = 'red')
+ax3.plot(time, pd.u_d, label='u_d', linewidth=3, color = 'blue')
 ax3.set_xlabel('Time, (sec)')
 ax3.set_ylabel('Control Effort')
 h, l = ax3.get_legend_handles_labels()
