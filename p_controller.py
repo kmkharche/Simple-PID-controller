@@ -1,12 +1,3 @@
-##################################################################################
-# Your goal is to follow the comments and complete the the tasks asked of you.
-# Take this time to try and understand the workings of the empty class structure.
-# The following quizzes will assume a understanding of a working class strucutre.
-#
-# Good luck designing your proportional controller!
-#
-##################################################################################
-
 class P_Controller:
     def __init__(self, kp = 0.0, start_time = 0):
         

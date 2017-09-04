@@ -1,11 +1,3 @@
-##################################################################################
-# Your goal is to follow the comments and complete the the tasks asked of you.
-#
-# Good luck designing your proportional integral controller!
-#
-##################################################################################
-
-
 class PI_Controller:
     def __init__(self, kp = 0.0, ki = 0.0, start_time = 0):
         
