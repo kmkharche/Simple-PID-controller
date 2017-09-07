@@ -5,16 +5,25 @@ from quad1d_eom import ydot
 
 ##################################################################################
 ##################################################################################
-kp = 0.76
-ki = 0.12
-kd = 0.45
+# This code is what will be executed and what will produce your results
+# For this quiz you need to set alpha and umax below to your desired value
+# Then modify pid_controller.py to build out your PID controller
+
+kp = 0.5
+ki = 0.11
+kd = 0.2
+
+umax = 3.0 # max controller output, (N)
+
+alpha = 0.04 # derivative filter smoothing factor
+
 ##################################################################################
 ##################################################################################
 
 # Simulation parameters
-N = 500 # number of simultion points
+N = 600 # number of simulation points
 t0 = 0  # starting time, (sec)
-tf = 30 # end time, (sec)
+tf = 45 # end time, (sec)
 time = np.linspace(t0, tf, N)
 dt = time[1] - time[0] # delta t, (sec)
 
@@ -28,17 +37,10 @@ y = [0, 0]
 # Initialize array to store values
 soln = np.zeros((len(time),len(y)))
 
-# Create instance of PID_Controller class
-pid = PIDController()
-
-# Set the Kp value of the controller
-pid.setKP(kp)
-
-# Set the Ki value of the controller
-pid.setKI(ki)
-
-# Set the Kd value of the controller
-pid.setKD(kd)
+# Create instance of PID_Controller class and 
+# initalize and set all the variables
+pid = PIDController(kp = kp, ki = ki, kd = kd, max_windup = 1e6, u_bounds
+        = [0, umax], alpha = alpha)
 
 # Set altitude target
 r = 10 # meters
