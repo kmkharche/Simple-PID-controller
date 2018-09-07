@@ -1,16 +1,8 @@
-##################################################################################
-# Your goal is to follow the comments and complete the the tasks asked of you.
-#
-# Good luck designing your proportional integral and derivative controller!
-#
-##################################################################################
-
 class PIDController:
     def __init__(self, kp = 0.0, ki = 0.0, kd = 0.0, max_windup = 20,
             start_time = 0, alpha = 1., u_bounds = [float('-inf'), float('inf')]):
         
-        # The PID controller can be initalized with a specific kp value
-        # ki value, and kd value
+        # The PID controller can be initalized with a specific kp value, ki value, and kd value
         self.kp_ = float(kp)
         self.ki_ = float(ki)
         self.kd_ = float(kd)
@@ -87,12 +79,8 @@ class PIDController:
         self.last_error_ = error
         
         # Address max windup
-        ########################################
         if (self.error_sum_>self.max_windup_):
             self.error_sum_=self.max_windup_
-
-
-        ########################################
         
         # Proportional error
         p = self.kp_ * error
@@ -100,28 +88,22 @@ class PIDController:
         # Integral error
         i = self.ki_ * self.error_sum_
        
-        # Recalculate the derivative error here incorporating 
-        # derivative smoothing!
-        ########################################
+        # Recalculate the derivative error here incorporating derivative smoothing!
         if delta_time == 0:
             d = 0.0
         else:
             d=self.alpha*delta_error/delta_time + (1-self.alpha)*self.u_d[-1]
-        ########################################
         
         # Set the control effort
         u = p + i + d
         
         # Enforce actuator saturation limits
-        ########################################
         if (u<self.umin):
             u=self.umin
         if (u>self.umax):
             u=self.umax
-        ########################################
     
-        # Here we are storing the control effort history for post control
-        # observations. 
+        # Here we are storing the control effort history for post control observations. 
         self.u_p.append(p)
         self.u_i.append(i)
         self.u_d.append(d)
